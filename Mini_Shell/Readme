@@ -1,0 +1,3 @@
+to generate executables after any update..
+run make command..
+to launch the shell, run $make test
