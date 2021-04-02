@@ -1,0 +1,13 @@
+This code returns to 15/02/2021..
+
+
+Activity1 : The mistake was recovered..
+loading doc.op collection into XML file using DOM..
+
+Activity2 : Works successfully..
+Maxium Temperature captured by Station (using SAX)..
+
+Activity3 : Incomplete..
+AVG temperature using SAX and a certain data structure..
+
+
