@@ -20,11 +20,13 @@ import org.sat4j.specs.IProblem;
 import org.sat4j.specs.ISolver;
 import org.sat4j.specs.TimeoutException;
 
+
+
 /**
  *
- * @author mez
+ * @author omar
  */
-public class RCRTp {
+public class Guest_Affecting_to_Tables_SAT {
 
     /**
      * @param args the command line arguments
@@ -33,9 +35,13 @@ public class RCRTp {
      * @throws org.sat4j.reader.ParseFormatException
      */
     public static void main(String[] args) throws ContradictionException, TimeoutException, ParseFormatException, IOException {
-        InSoftware();
+        
+        GuiImpl gui = new GuiImpl();
+        // InSoftware();
         // FromFile();
     }
+
+
     public  static int 
     INVITES =12,
     TABLES= 3,
@@ -54,19 +60,12 @@ public class RCRTp {
          //{3,18}
     };
 
-
-
     
     public static void InSoftware() throws ContradictionException, TimeoutException
     {
         final int MAXVAR = CHAISES*INVITES*TABLES; // Number of variables
         int nbClauses = 0; // expected number of clauses
         
-
-        
-
-
-
         ISolver solver = SolverFactory.newDefault(); // SAT solver
         solver.setTimeout(3600); // 1 hour timeout
 
@@ -78,7 +77,6 @@ public class RCRTp {
         // Example sum of three variables equals 1
         //int[][] clause = {{-1, -2}, {-1, -3}, {-2, -3}, {1, 2, 3}};
         //solver.addClause(new VecInt(clause[i]));
-        
 
 
         // 1 & 2 : one person by chaise de table
@@ -105,23 +103,19 @@ public class RCRTp {
 
         }
 
-
-
-        for(int invite =1;invite<=INVITES;invite++){ //one table; at least
+        for(int invite =1;invite<=INVITES;invite++){ //a guest has a chair in a table at least
             ArrayList<Integer> atLeastClause=new ArrayList<>();
             for (int chaise = 1; chaise<= CHAISES; chaise++) {
                 for (int table=1;table<=TABLES;table++) {
                     atLeastClause.add(mapper(table, chaise, invite));
                 }
-                
-                
             }
             // System.out.println(atLeastClause);
             solver.addClause(new VecInt(atLeastClause.stream().mapToInt(i->i).toArray()));
             nbClauses++;
         }
 
-        for (int table=1;table<=TABLES;table++) {
+        for (int table=1;table<=TABLES;table++) {//a table has an invited in its chair
             ArrayList<Integer> atLeastClause=new ArrayList<>();
             for (int chaise = 1; chaise<= CHAISES; chaise++) {
                 for(int invite =1;invite<=INVITES;invite++){ //one chair;
@@ -132,7 +126,6 @@ public class RCRTp {
             solver.addClause(new VecInt(atLeastClause.stream().mapToInt(i->i).toArray()));
             nbClauses++;
         }
-        
         
         //table unicity
         
@@ -208,7 +201,6 @@ public class RCRTp {
                             if(!(Math.abs(chaise2-chaise)==1||Math.abs(chaise2-chaise)==CHAISES-1))
                                 continue;
                             
-                                
                                 for(int femme : FEMME){
                                     if(saFemme!=femme ){
                                         for (int chaise3 = 1; chaise3 <= CHAISES; chaise3++) {
@@ -264,8 +256,6 @@ public class RCRTp {
                     for (int chaise = 1;chaise <= CHAISES; chaise++) {
                         for (int chaise2 = 1; chaise2 <= CHAISES; chaise2++) {
 
-
-
                             for (int table2=1 ;table2<=TABLES;table2++) {   //A WOMAN MUST STAY WITH HER HUSBAND..   
                                 if(table2==table)
                                     continue;
@@ -277,14 +267,9 @@ public class RCRTp {
                                 nbClauses++;
                             }
 
-
-
                             if(!(Math.abs(chaise2-chaise)==1||Math.abs(chaise2-chaise)==CHAISES-1))
                             continue;
                             
-                                
-                                
-                                
                                 for(int homme : HOMME){
                                     if(sonMari!=homme ){
                                         for (int chaise3 = 1; chaise3 <= CHAISES; chaise3++) {
@@ -296,9 +281,6 @@ public class RCRTp {
                                             // System.out.println(new VecInt(clause) + " means " + femme+ " " + sonMari + " " +homme);
                                             nbClauses++;
 
-
-                                            
-                                            
                                         }
                                     }
                                 }
@@ -327,29 +309,8 @@ public class RCRTp {
                     
                 }
 
-                
-
-
-
 
             }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             
 
         //System.out.println(nbClauses);
@@ -360,7 +321,7 @@ public class RCRTp {
         
         Reader reader = new DimacsReader(solver); // needed to decode the obtained result
         
-       try {
+        try {
             if (problem.isSatisfiable()) {
                 System.out.println("Satisfiable !");
                 String output=reader.decode(problem.model());
@@ -369,6 +330,7 @@ public class RCRTp {
                 
 
                 StringTokenizer headerTokens=new StringTokenizer(output," ");
+                output="";
                 int value = Integer.parseInt(headerTokens.nextToken());
                 while(value!=0){
                     if(value>0){
@@ -376,19 +338,22 @@ public class RCRTp {
                         // System.out.println(value);
                         int chaise= ((value-1)%(CHAISES*INVITES))/INVITES;
                         int invite= (value-table*CHAISES*INVITES-chaise*INVITES);
+                        output+="Table "+(table+1)+" Chaise "+(chaise+1) +" Invité "+ invite+"\n";
                         System.out.println("Table "+(table+1)+" Chaise "+(chaise+1) +" Invité "+ invite );
                     }
-                    
                     value = Integer.parseInt(headerTokens.nextToken());
                 }
+                GuiImpl.displayResult(output+"\n");
                 
                 // System.out.println(reader.decode(problem.model())); // Print a model satisfiying the problem
                 
             } else {
                 System.out.println("Unsatisfiable !");
+                GuiImpl.displayResult("Unsatisfiable !");
             }
         } catch (TimeoutException e) {
             System.out.println("Timeout, sorry!");
+            GuiImpl.displayResult("Timeout, sorry!");
         }    
         
     }
@@ -409,7 +374,7 @@ public class RCRTp {
         
         try {
             IProblem problem = reader.parseInstance(
-                    RCRTp.class.getClassLoader().getResourceAsStream("resources/test.cnf")
+                Guest_Affecting_to_Tables_SAT.class.getClassLoader().getResourceAsStream("resources/test.cnf")
             ) ;
             if (problem.isSatisfiable()) {
                 System.out.println("Satisfiable !");
@@ -430,4 +395,9 @@ public class RCRTp {
             System.out.println("Timeout, sorry!");
         }
     }
+
+    
+    
+    
+    
 }
