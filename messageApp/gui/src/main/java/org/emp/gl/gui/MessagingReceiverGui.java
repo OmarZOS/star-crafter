@@ -79,7 +79,7 @@ public class MessagingReceiverGui extends javax.swing.JFrame implements Messagin
     
     private void autresInitialisations() {        
         setSize(400, 400);
-        setTitle("reciver : " + recieverName);
+        setTitle("receiver : " + recieverName);
 
         MessagingService ms = Lookup.getInstance().getService(MessagingService.class);
         if (ms != null) {

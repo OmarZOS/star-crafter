@@ -5,19 +5,15 @@
  */
 package org.emp.gl.gui;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 import javax.swing.JCheckBox;
 
 import org.emp.gl.core.lookup.Lookup;
-import org.emp.gl.messages.AnonymousMessage;
 import org.emp.gl.messages.BaseMessageAdapter;
-import org.emp.gl.messages.BasicHash;
-import org.emp.gl.messages.CryptingCaesar;
-import org.emp.gl.messages.FilterCapsOn;
-import org.emp.gl.messages.FilterClearSpaces;
-import org.emp.gl.messages.FilterNoPunctuation;
 import org.emp.gl.messages.IMessage;
-import org.emp.gl.messages.MD5HashMessage;
-import org.emp.gl.messages.SHA_HashMessage;
+import org.emp.gl.messages.MessageDecorator;
 import org.emp.gl.sender.service.MessagingService;
 
 
@@ -26,17 +22,22 @@ import org.emp.gl.sender.service.MessagingService;
  * @author billal
  */
 public class MessagingSenderGui extends javax.swing.JFrame {
-
     private final String senderId;
+
+
+
+    final ArrayList<MessageDecorator> myDecors = (ArrayList<MessageDecorator>)Lookup.getInstance().getAllServices(MessageDecorator.class);
+    ArrayList<JCheckBox> checkBoxes; 
+
 
     /**
      * Creates new form MessagingRecievingTest
      */
     public MessagingSenderGui(String senderId) {
         setSize(400, 400);
-        this.senderId = senderId ;
-        
         initComponents();
+        
+        this.senderId = senderId ;
                 
         userField.setText(senderId);
     }
@@ -61,15 +62,12 @@ public class MessagingSenderGui extends javax.swing.JFrame {
         objectField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         messageField = new javax.swing.JTextArea();
-        checkBox1 = new JCheckBox("No WhiteSpaces");  
-        checkBox3 = new JCheckBox("Caps On");  
-        checkBox4 = new JCheckBox("No Punctuation");  
-        checkBox2 = new JCheckBox("Anonymous");  
-        checkBox5 = new JCheckBox("use SHA");  
-        checkBox6 = new JCheckBox("Encrypt Caesar");
-        checkBox7 = new JCheckBox("use MD5");  
-        checkBox8 = new JCheckBox("Basic Hash");  
-        
+
+        checkBoxes = new ArrayList<JCheckBox>();
+
+        for(MessageDecorator decor : myDecors ){
+            checkBoxes.add( new JCheckBox(decor.getClass().getSimpleName())) ;
+        }
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -137,71 +135,16 @@ public class MessagingSenderGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         getContentPane().add(destinationField, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox1.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox1, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox3.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox3, gridBagConstraints);
-
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox5.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox5, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox6.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox6, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox7.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox7, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox2.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox2, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox8.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox8, gridBagConstraints);
-        
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        checkBox4.setBounds(100,100, 50,50); 
-        getContentPane().add(checkBox4, gridBagConstraints);
+        for(int i =0 ;i< checkBoxes.size();i++  ){
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = i%2;
+            gridBagConstraints.gridy = 6 + i/2;
+            gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+            gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+            checkBoxes.get(i).setBounds(100,100, 50,50); 
+            getContentPane().add(checkBoxes.get(i), gridBagConstraints);
+        }
         
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -230,31 +173,33 @@ public class MessagingSenderGui extends javax.swing.JFrame {
         
         IMessage message = new BaseMessageAdapter();
 
-        if(checkBox1.isSelected()){
-            message= new FilterClearSpaces(message);
-        }
-        if(checkBox2.isSelected()){
-            message= new AnonymousMessage(message);
-        }
-        if(checkBox3.isSelected()){
-            message= new FilterCapsOn(message);
-        }
-        if(checkBox4.isSelected()){
-            message= new FilterNoPunctuation(message);
-        }
-        if(checkBox5.isSelected()){
-            message= new SHA_HashMessage(message);
-        }
-        if(checkBox6.isSelected()){
-            message= new CryptingCaesar(message);
-        }
-        if(checkBox7.isSelected()){
-            message= new MD5HashMessage(message);
+
+        for(MessageDecorator decor : myDecors){
+            if(checkBoxes.get(myDecors.indexOf(decor)).isSelected()){
+                try {
+                    message=decor.getClass().getDeclaredConstructor(IMessage.class).newInstance(message) ;
+                } catch (InstantiationException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
         }
 
-        if(checkBox8.isSelected()){
-            message= new BasicHash(message);
-        }
 
         
         message.setTitle(objectField.getText());
@@ -277,13 +222,5 @@ public class MessagingSenderGui extends javax.swing.JFrame {
     private javax.swing.JTextArea messageField;
     private javax.swing.JTextField objectField;
     private javax.swing.JTextField userField;
-    private JCheckBox checkBox1;
-    private JCheckBox checkBox2;
-    private JCheckBox checkBox3;
-    private JCheckBox checkBox4;
-    private JCheckBox checkBox5;
-    private JCheckBox checkBox6;
-    private JCheckBox checkBox7;
-    private JCheckBox checkBox8;
     // End of variables declaration//GEN-END:variables
 }
