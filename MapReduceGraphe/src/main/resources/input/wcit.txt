@@ -1,0 +1,4 @@
+Country,City,AccentCity,Region,Population,Latitude,Longitude
+ad,aixas,Aix�s,06,1000,42.4833333,1.4666667
+ad,aixovall,Aixovall,06,10000,47.4666667,1.4833333
+ad,andorra-vieille,Andorra-Vieille,07,1000,42.5,1.5166667
