@@ -14,6 +14,7 @@
 - **Poo** : From the C++ OOP labs
 - **VectorZL** : Vector basic operations destined to be used by low level infographics. 
 - **Virtual load balancer** : A proxy image using nginx image by docker. 
+- **SQL Data Mart and Analytics** : The full script for the needed SQL commands. 
 
 
 
