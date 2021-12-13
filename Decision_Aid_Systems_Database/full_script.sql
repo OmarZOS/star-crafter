@@ -512,7 +512,7 @@ COMMIT ;
 END ;
 /
     
-drop table DCompagniecascade constraints;
+drop table DCompagnie cascade constraints;
 CREATE TABLE DCompagnie(
    DCODE_COMP            NUMBER(10)           not null,
    DNOM_COMP             VARCHAR2(70),
