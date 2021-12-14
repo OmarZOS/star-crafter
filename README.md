@@ -1,6 +1,8 @@
 # StarCrafter
-######A bunch of useful scripts at some points in my walkthrough..
-###Contents
+
+#### A bunch of useful scripts at some points in my academic walkthrough..
+
+### Contents:
 
 - **AVL** : Valued Tree structure that I implemented during the days of Algorithmics courses.
 - **Corpus to XML** : Getting the XML file from a collection of documents.
