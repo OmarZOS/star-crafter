@@ -29,7 +29,6 @@ CREATE TABLE DMODELE(
    DCODEMARQUE           NUMBER(4)            not null,
    DLIBELLEMARQUE        VARCHAR2(50),
    DNATIONALITE          VARCHAR2(50),  
-   
    constraint PK_DMODELE primary key (DCODEMODELE)
 );
 
@@ -46,7 +45,7 @@ drop sequence seq;
 
 CREATE SEQUENCE seq
 MINVALUE 1
-MAXVALUE 800001
+MAXVALUE 1000000
 START WITH 1
 INCREMENT BY 1 ;
 
