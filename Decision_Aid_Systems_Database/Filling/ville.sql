@@ -1,6 +1,6 @@
 
 DECLARE
-l char(50); m number;
+l char(50); m number(2);
 begin
 for i in 1..400 loop
    select dbms_random.string('U',8) into l from dual;
@@ -9,3 +9,4 @@ for i in 1..400 loop
 end loop;
 commit;
 end;
+/

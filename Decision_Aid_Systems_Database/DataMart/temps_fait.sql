@@ -1,42 +1,3 @@
-
-drop sequence seqF;
-
-CREATE SEQUENCE seqF
-MINVALUE 1
-MAXVALUE 400000
-START WITH 1
-INCREMENT BY 1 ;
-
-drop sequence seq;
-
-CREATE SEQUENCE seq
-MINVALUE 1
-MAXVALUE 800000
-START WITH 1
-INCREMENT BY 1 ;
-
-drop table DTEMPS cascade constraints;
-CREATE TABLE DTEMPS(
-   CODE_TEMPS            number(10) not null,
-   MOIS                  date,
-   LIB_MOIS              VARCHAR2(20),
-   TRIMESTRE             date,
-   ANNEE                date,
-   constraint PK_DTEMPS primary key (CODE_TEMPS)
-);
-
-drop table FSouscription cascade constraints;
-CREATE TABLE FSouscription (
-   FNumAss            NUMBER(28) ,
-   FCODEMODELE           NUMBER(10)            not null,
-   FCodeType              NUMBER(10)  ,
-   FCodeComp             number(10)  ,
-   FCodeTemps             number(28) ,
-   F_Nbcontrat             number(28),
-   F_CA                    BINARY_DOUBLE,
-   constraint PK_FNumAss      primary key (FNumAss,FCODEMODELE,FCodeType,FCodeComp,FCodeTemps)
-);  
-
 DECLARE
    id number;
    
@@ -46,7 +7,6 @@ FOR i IN (select c.NUMASS,c.MATRICULE,v.CODETYPE,c.CODE_COMP,c.DATESOUSCRIPTION,
       where v.MATRICULE=c.MATRICULE
       GROUP BY c.NUMASS,c.MATRICULE,v.CODETYPE,c.CODE_COMP,c.DATESOUSCRIPTION ) LOOP
     
-  
   select seq.nextVAL  into id from dual;
 
   INSERT INTO DTEMPS VALUES (id,

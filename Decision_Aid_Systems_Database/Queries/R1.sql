@@ -1,0 +1,7 @@
+SELECT sum(f.F_CA) as Chiffre_global
+       ,sum(f.F_NBCONTRAT) as Nombre_de_contrats 
+FROM DMODELE m, FSOUSCRIPTION f,DASSURE a
+WHERE m.DCODEMODELE=f.FCODEMODELE
+    AND m.DLIBELLEMODELE LIKE 'Peugeot%'
+    AND f.FNUMASS=a.DNUMASS
+    AND a.DNOMWILAYA LIKE 'ALGER%'
