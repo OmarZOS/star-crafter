@@ -1,0 +1,7 @@
+EXPLAIN PLAN FOR SELECT m.DNATIONALITE
+                               ,sum(f.F_CA) AS Chiffre_global
+    FROM DMODELE m ,FSOUSCRIPTION f, DASSURE a
+    WHERE m.DCODEMODELE=f.FCODEMODELE
+    AND f.FNUMASS=a.DNUMASS
+    GROUP BY m.DNATIONALITE;
+@$ORACLE_HOME/rdbms/admin/utlxpls.sql;

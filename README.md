@@ -16,11 +16,8 @@
 - **Poo** : From the C++ OOP labs
 - **VectorZL** : Vector basic operations destined to be used by low level infographics. 
 - **Virtual load balancer** : A proxy image using nginx image by docker. 
+- **HDFS Slave setting** : Ad-hoc files for an HDFS slave configuration.
 - **SQL Data Mart and Analytics** : The full script for the needed SQL commands. 
-
-
-
-
 
 
 
