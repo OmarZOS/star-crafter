@@ -2,6 +2,17 @@
 
 
 
+def select_top_k (it) :
+    k = broadcast_k.value
+    sorted_res = sorted(it, key=lambda x: x[1], reverse=True)
+    top_k_res = [0] * k
+    i = 0
+    for t in sorted_res:
+        top_k_res[i] = t
+        i += 1
+        if i >= k:
+            break
+    return top_k_res
 
 
 if __name__=="__main__":
@@ -28,7 +39,7 @@ if __name__=="__main__":
     println(summary.sum)  // column-wise variance
     println(summary.mean)  // a dense vector containing the mean value for each column
     
-
+    rdd = sc.mapPartitions(select_top_k)
 
 
 
